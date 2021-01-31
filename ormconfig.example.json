@@ -1,0 +1,37 @@
+[
+  {
+    "name": "default",
+    "type": "",
+    "host": "",
+    "port": 5432,
+    "username": "",
+    "password": "",
+    "database": "",
+    "url": "",
+    "synchronize": "",
+    "autoLoadEntities": "",
+    "entities": [
+      "dist/modules/**/*.entity{.ts,.js}",
+      "src/modules/**/*.entity{.ts,.js}"
+    ],
+
+    "migrations": [
+      ""
+    ],
+    "cli": {
+      "migrationsDir": ""
+    }
+  },
+
+  {
+    "name": "",
+    "type": "",
+    "host": "",
+    "port": 27017,
+    "useUnifiedTopology": true,
+    "url": "",
+    "entities": [
+      ""
+    ]
+  }
+]
