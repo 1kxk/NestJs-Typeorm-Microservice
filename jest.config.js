@@ -18,11 +18,16 @@ module.exports = {
     'src/app.modules.ts',
     'src/shared/filters/*',
     'src/shared/interceptors/*',
-    'src/modules/**/entities/*',
+    'src/shared/**/decorators/*',
+    'src/shared/**/models/*',
+    'src/shared/**/*.module.ts$',
+    'src/shared/**/*.controller.ts$',
+    'src/modules/filters/*',
+    'src/modules/interceptors/*',
     'src/modules/**/decorators/*',
     'src/modules/**/models/*',
     'src/modules/**/*.module.ts$',
-    'shared/modules/**/*.module.ts$'
+    'src/modules/**/*.controller.ts$'
   ],
 
   testEnvironment: 'node',
