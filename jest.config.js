@@ -5,7 +5,12 @@ module.exports = {
   coverageDirectory: '../coverage',
   coverageReporters: ['text-summary', 'lcov'],
   coverageProvider: 'v8',
-  collectCoverageFrom: ['<rootDir>/src/modules/**/*.service.ts'],
+  collectCoverageFrom: [
+    '<rootDir>/src/modules/**/*.service.ts',
+    '<rootDir>/src/modules/**/*.repository.ts',
+    '<rootDir>/src/modules/**/pipes/*.ts',
+    '<rootDir>/src/modules/**/guards/*.ts'
+  ],
 
   coveragePathIgnorePatterns: [
     'node_modules',
@@ -13,9 +18,7 @@ module.exports = {
     'src/app.modules.ts',
     'src/shared/filters/*',
     'src/shared/interceptors/*',
-    'src/modules/**/dtos/*',
     'src/modules/**/entities/*',
-    'src/modules/**/enums/*',
     'src/modules/**/decorators/*',
     'src/modules/**/models/*',
     'src/modules/**/*.module.ts$',
