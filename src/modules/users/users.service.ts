@@ -9,11 +9,11 @@ import {
 import { InjectRepository } from '@nestjs/typeorm'
 
 import { AuthService } from '../../shared/modules/auth/auth.service'
-import { SignInDTO } from './dtos/sign-in.dto'
-import { SignUpDTO } from './dtos/sign-up.dto'
-import { UpdateUserDTO } from './dtos/update-user.dto'
+import { SignInDTO } from './models/dtos/sign-in.dto'
+import { SignUpDTO } from './models/dtos/sign-up.dto'
+import { UpdateUserDTO } from './models/dtos/update-user.dto'
 import { User } from './models/entities/users.entity'
-import { UserRoles } from './enums/user-roles.enum'
+import { UserRoles } from './models/enums/user-roles.enum'
 import { SignIn } from './models/SignIn'
 import { UsersRepository } from './users.repository'
 

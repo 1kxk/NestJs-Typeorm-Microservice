@@ -8,7 +8,7 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn
 } from 'typeorm'
-import { UserRoles } from '../../enums/user-roles.enum'
+import { UserRoles } from '../../models/enums/user-roles.enum'
 
 @Entity('users')
 export class User extends BaseEntity {
@@ -23,7 +23,7 @@ export class User extends BaseEntity {
 
   @Column({ unique: true })
   email: string
-  
+
   @Column()
   avatar: string
 
@@ -49,7 +49,7 @@ export class User extends BaseEntity {
     this.email = this.email.toLowerCase()
     this.email = this.email.trim()
   }
-  
+
   // @Expose({ name: 'avatar_url' })
   // getAvatar_url(): string | null {
   //   return this.avatar ? 'url_path' : null
