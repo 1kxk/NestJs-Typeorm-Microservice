@@ -76,8 +76,9 @@ export class UsersService {
   async updateRole(id: string, role: UserRoles): Promise<User> {
     const user = await this.findOne(id)
 
-    await this.usersRepository.update(id, { ...user, role })
-    return user
+    const updatedUser = this.usersRepository.create({ ...user, role })
+    await this.usersRepository.update(id, updatedUser)
+    return updatedUser
   }
 
   async deleteOne(id: string): Promise<void> {
