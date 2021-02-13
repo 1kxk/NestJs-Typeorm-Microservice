@@ -9,9 +9,7 @@ export const sqlDatabase = registerAs('sqlDatabase', () => ({
   host: process.env.SQL_HOST,
   port: Number(process.env.SQL_PORT),
   database: process.env.SQL_DATABASE,
-  // eslint-disable-next-line eqeqeq
   synchronize: process.env.SQL_SYNCHRONIZE == 'true',
-  // eslint-disable-next-line eqeqeq
   autoLoadEntities: process.env.SQL_AUTOLOADENTITIES == 'true'
 
   // entities: process.env.SQL_ENTITIES,
