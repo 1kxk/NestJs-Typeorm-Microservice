@@ -23,6 +23,9 @@ export class User extends BaseEntity {
 
   @Column({ unique: true })
   email: string
+  
+  @Column()
+  avatar: string
 
   @Exclude()
   @Column()
@@ -46,4 +49,9 @@ export class User extends BaseEntity {
     this.email = this.email.toLowerCase()
     this.email = this.email.trim()
   }
+  
+  // @Expose({ name: 'avatar_url' })
+  // getAvatar_url(): string | null {
+  //   return this.avatar ? 'url_path' : null
+  // }
 }
