@@ -27,7 +27,6 @@ import { AuthModule } from './shared/modules/auth/auth.module'
         username: configService.get('sqlDatabase.username'),
         password: configService.get('sqlDatabase.password'),
         database: configService.get('sqlDatabase.database'),
-        // eslint-disable-next-line node/no-path-concat
         entities: [__dirname + '/../dist/modules/**/models/entities/*.js'],
         synchronize: configService.get('sqlDatabase.synchronize'),
         autoLoadEntities: configService.get('sqlDatabase.autoLoadEntities'),
