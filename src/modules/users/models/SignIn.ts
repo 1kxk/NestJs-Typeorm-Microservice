@@ -1,5 +1,5 @@
 export class SignIn {
   token: string
 
-  userId: string
+  user_id: string
 }

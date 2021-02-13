@@ -111,7 +111,7 @@ export class UsersService {
 
     const token = await this.authService.generateJwt(user)
 
-    return { token, userId: user.id }
+    return { token, user_id: user.id }
   }
 
   private async findByUsernameOrEmail(credential: string): Promise<User> {
