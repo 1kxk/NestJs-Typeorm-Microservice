@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common'
 import { ConfigModule, ConfigService } from '@nestjs/config'
 import { TypeOrmModule } from '@nestjs/typeorm'
+import { MongooseModule } from '@nestjs/mongoose'
 
 import authConfig from './config/auth.config'
 import { nosqlDatabase, sqlDatabase } from './config/database.config'
@@ -31,6 +32,18 @@ import { AuthModule } from './shared/modules/auth/auth.module'
         synchronize: configService.get('sqlDatabase.synchronize'),
         autoLoadEntities: configService.get('sqlDatabase.autoLoadEntities'),
         keepConnectionAlive: true
+      })
+    }),
+    MongooseModule.forRootAsync({
+      imports: [ConfigModule],
+      inject: [ConfigService],
+
+      useFactory: async (configService: ConfigService) => ({
+        uri: configService.get('nosqlDatabase.url'),
+        connectionName: configService.get('nosqlDatabase.name'),
+        dbName: configService.get('nosqlDatabase.database'),
+        entities: [__dirname + '/../dist/modules/**/models/entities/*.js'],
+        keepAlive: true
       })
     }),
     AuthModule,
