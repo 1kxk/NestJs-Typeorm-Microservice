@@ -27,7 +27,7 @@ import { CheckPasswordsMatch } from './pipes/check-passwords-match.pipe'
 
 import { UsersService } from './users.service'
 import { FileInterceptor } from '@nestjs/platform-express'
-import { AuthUser } from './guards/auth.user.guard'
+import { AuthUser } from './decorators/auth-user.decorator'
 
 @Controller('users')
 export class UsersController {
