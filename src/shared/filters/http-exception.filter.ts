@@ -30,8 +30,12 @@ export class AllExceptionFilter implements ExceptionFilter {
     )
 
     response.status(status).send({
-      timestamp: Date.now(),
-      path: request.url,
+      _timestamp: Date.now(),
+      _links: {
+        self: {
+          href: request.url
+        }
+      },
       error: {
         status: message.statusCode,
         type: message.error,
