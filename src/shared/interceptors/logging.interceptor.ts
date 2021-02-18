@@ -8,9 +8,15 @@ export class LoggingInterceptor implements NestInterceptor {
 
     return next.handle().pipe(
       map(data => ({
-        timestamp: Date.now(),
-        path: request.url,
+        _timestamp: Date.now(),
+        _links: {
+          self: {
+            href: request.url
+          }
+        },
+        // _embedded: {
         data
+        // }
       }))
     )
   }
