@@ -7,7 +7,6 @@ import {
   Patch,
   Post,
   Put,
-  Query,
   UploadedFile,
   UseGuards,
   UseInterceptors
@@ -35,8 +34,8 @@ export class UsersController {
 
   @UseGuards(JwtAuthGuard)
   @Get()
-  async findAll(@Query('user_id') user_id: string): Promise<User[]> {
-    const users = await this.usersService.findAll(user_id)
+  async findAll(): Promise<User[]> {
+    const users = await this.usersService.findAll()
     return users.map(user => classToClass(user))
   }
 
