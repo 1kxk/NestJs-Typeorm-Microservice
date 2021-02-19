@@ -3,17 +3,19 @@ import { ConfigModule, ConfigService } from '@nestjs/config'
 import { TypeOrmModule } from '@nestjs/typeorm'
 import { MongooseModule } from '@nestjs/mongoose'
 
-import authConfig from './config/auth.config'
+import { authConfig } from './config/auth.config'
 import { nosqlDatabase, sqlDatabase } from './config/database.config'
+import { storageConfig } from './config/storage.config'
 import { UsersModule } from './modules/users/users.module'
 import { AuthModule } from './shared/modules/auth/auth.module'
+import { NotificationsModule } from './modules/notifications/notifications.module'
 
 @Module({
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
       cache: true,
-      load: [sqlDatabase, nosqlDatabase, authConfig],
+      load: [sqlDatabase, nosqlDatabase, authConfig, storageConfig],
       envFilePath: [`.env.${process.env.NODE_ENV}`]
     }),
     TypeOrmModule.forRootAsync({
@@ -47,7 +49,8 @@ import { AuthModule } from './shared/modules/auth/auth.module'
       })
     }),
     AuthModule,
-    UsersModule
+    UsersModule,
+    NotificationsModule
   ]
 })
 export class AppModule {}
