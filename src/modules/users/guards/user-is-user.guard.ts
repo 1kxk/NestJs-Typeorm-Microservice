@@ -5,7 +5,7 @@ import { User } from '../models/entities/users.entity'
 import { UsersService } from '../users.service'
 
 @Injectable()
-export class UsersIsUser implements CanActivate {
+export class UserIsUser implements CanActivate {
   constructor(private readonly usersService: UsersService) {}
 
   canActivate(
