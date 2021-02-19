@@ -9,6 +9,7 @@ import { storageConfig } from './config/storage.config'
 import { UsersModule } from './modules/users/users.module'
 import { AuthModule } from './shared/modules/auth/auth.module'
 import { NotificationsModule } from './modules/notifications/notifications.module'
+import { DiskStorage } from './shared/providers/storage/implementations/disk-storage'
 
 @Module({
   imports: [
@@ -51,6 +52,12 @@ import { NotificationsModule } from './modules/notifications/notifications.modul
     AuthModule,
     UsersModule,
     NotificationsModule
+  ],
+  providers: [
+    {
+      provide: 'StorageProvider',
+      useClass: DiskStorage
+    }
   ]
 })
 export class AppModule {}
