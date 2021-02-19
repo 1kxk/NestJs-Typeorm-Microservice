@@ -45,7 +45,6 @@ import { DiskStorage } from './shared/providers/storage/implementations/disk-sto
         uri: configService.get('nosqlDatabase.url'),
         connectionName: configService.get('nosqlDatabase.name'),
         dbName: configService.get('nosqlDatabase.database'),
-        entities: [__dirname + '/../dist/modules/**/models/entities/*.js'],
         keepAlive: true
       })
     }),
