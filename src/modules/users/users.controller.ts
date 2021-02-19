@@ -89,8 +89,11 @@ export class UsersController {
   @Patch('avatar')
   @UseGuards(JwtAuthGuard, UserIsUser)
   @UseInterceptors(FileInterceptor('file'))
-  async updateAvatar(@UploadedFile() file: Express.Multer.File): Promise<User> {
-    const user = await this.usersService.updateAvatar(file)
-    return classToClass(user)
+  async updateAvatar(
+    @AuthUser() user: User,
+    @UploadedFile() file: Express.Multer.File
+  ): Promise<User> {
+    const updatedUser = await this.usersService.updateAvatar(user.id, file)
+    return classToClass(updatedUser)
   }
 }

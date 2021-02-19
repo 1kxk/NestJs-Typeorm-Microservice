@@ -6,7 +6,7 @@ import path from 'path'
 import { IStorageProvider } from '../storage.provider'
 
 @Injectable()
-export class DiskStorage implements IStorageProvider {
+export class DiskStorageProvider implements IStorageProvider {
   constructor(private configService: ConfigService) {}
 
   async saveFile(filename: string): Promise<string> {

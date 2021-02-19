@@ -8,6 +8,7 @@ import {
 } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 
+import { DiskStorageProvider } from '../../shared/providers/storage/implementations/disk-storage'
 import { AuthService } from '../../shared/modules/auth/auth.service'
 import { SignInDTO } from './models/dtos/sign-in.dto'
 import { SignUpDTO } from './models/dtos/sign-up.dto'
@@ -24,7 +25,10 @@ export class UsersService {
     private readonly usersRepository: UsersRepository,
 
     @Inject(forwardRef(() => AuthService))
-    private readonly authService: AuthService
+    private readonly authService: AuthService,
+
+    @Inject('StorageService')
+    private readonly storageService: DiskStorageProvider
   ) {}
 
   async findAll(): Promise<User[]> {
@@ -115,7 +119,15 @@ export class UsersService {
     return { token, user_id: user.id }
   }
 
-  async updateAvatar(_file: any): Promise<any> {}
+  async updateAvatar(id: string, filePath: any): Promise<User> {
+    const fileName = await this.storageService.saveFile(filePath)
+    const user = await this.findOne(id)
+
+    user.avatar = fileName
+    await this.usersRepository.save(user)
+
+    return user
+  }
 
   private async findByUsernameOrEmail(credential: string): Promise<User> {
     return this.usersRepository.findOne({
