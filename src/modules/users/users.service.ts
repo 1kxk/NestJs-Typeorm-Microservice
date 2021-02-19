@@ -115,6 +115,8 @@ export class UsersService {
     return { token, user_id: user.id }
   }
 
+  async updateAvatar(_file: any): Promise<any> {}
+
   private async findByUsernameOrEmail(credential: string): Promise<User> {
     return this.usersRepository.findOne({
       where: [{ username: credential }, { email: credential }]
