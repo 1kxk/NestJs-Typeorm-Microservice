@@ -6,5 +6,6 @@ export const cacheConfig = registerAs('cache', () => ({
 }))
 
 export enum Keys {
+  USER = 'user',
   USERS_LIST = 'users_list'
 }

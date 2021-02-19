@@ -37,7 +37,7 @@ export class UsersService {
     private readonly cacheManager: Cache
   ) {}
 
-  async findAll(): Promise<User[]> {
+  async findAll(user_id?: string): Promise<User[]> {
     let users = await this.cacheManager.get<User[]>(Keys.USERS_LIST)
 
     if (!users) {
@@ -50,9 +50,15 @@ export class UsersService {
   }
 
   async findOne(id: string): Promise<User> {
-    const user = await this.usersRepository.findOne(id)
+    let user = await this.cacheManager.get<User>(`${Keys.USER}:${id}`)
 
-    if (!user) throw new NotFoundException('User could not be found!')
+    if (!user) {
+      user = await this.usersRepository.findOne(id)
+
+      if (!user) throw new NotFoundException('User could not be found!')
+
+      await this.cacheManager.set(`${Keys.USER}:${id}`, user)
+    }
 
     return user
   }
@@ -88,6 +94,7 @@ export class UsersService {
 
     user.name = payload.name ?? user.name
     await this.usersRepository.update(id, user)
+    await this.cacheManager.del(`${Keys.USER}:${id}`)
     return user
   }
 
@@ -96,18 +103,19 @@ export class UsersService {
 
     const updatedUser = this.usersRepository.create({ ...user, role })
     await this.usersRepository.update(id, updatedUser)
+    await this.cacheManager.del(`${Keys.USER}:${id}`)
     return updatedUser
   }
 
   async deleteOne(id: string): Promise<void> {
     await this.findOne(id)
+
+    await this.cacheManager.del(`${Keys.USER}:${id}`)
     await this.usersRepository.delete(id)
   }
 
   async singUp(payload: SignUpDTO): Promise<User> {
-    let user = await this.usersRepository.findOne({
-      where: [{ username: payload.username }, { email: payload.email }]
-    })
+    let user = await this.findByUsernameOrEmail(payload.username, payload.email)
 
     if (user) throw new ConflictException('User already signed')
 
@@ -115,16 +123,17 @@ export class UsersService {
 
     user = this.usersRepository.create(payload)
     user.password = hashedPassword
-
-    await this.cacheManager.del(Keys.USERS_LIST)
-
     return this.usersRepository.save(user)
   }
 
   async signIn(payload: SignInDTO): Promise<SignIn> {
-    const user = await this.findByUsernameOrEmail(payload.credential)
+    const user = await this.findByUsernameOrEmail(
+      payload.credential,
+      payload.credential
+    )
 
     if (!user) throw new NotFoundException('User could not be found')
+
     const passwordCheck = await this.authService.comparePassword(
       payload.password,
       user.password
@@ -142,14 +151,17 @@ export class UsersService {
 
     user.avatar = fileName
     await this.usersRepository.save(user)
+    await this.cacheManager.del(`${Keys.USER}:${id}`)
 
-    await this.cacheManager.del(Keys.USERS_LIST)
     return user
   }
 
-  private async findByUsernameOrEmail(credential: string): Promise<User> {
+  private async findByUsernameOrEmail(
+    username: string,
+    email: string
+  ): Promise<User> {
     return this.usersRepository.findOne({
-      where: [{ username: credential }, { email: credential }]
+      where: [{ username }, { email }]
     })
   }
 }
