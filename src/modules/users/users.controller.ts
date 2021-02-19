@@ -11,22 +11,24 @@ import {
   UseGuards,
   UseInterceptors
 } from '@nestjs/common'
+import { FileInterceptor } from '@nestjs/platform-express'
+
 import { classToClass } from 'class-transformer'
 import { JwtAuthGuard } from '../../shared/modules/auth/guards/jwt.guard'
 import { hasRoles } from './decorators/roles.decorator'
-import { SignInDTO } from './models/dtos/sign-in.dto'
-import { SignUpDTO } from './models/dtos/sign-up.dto'
-import { UpdateUserDTO } from './models/dtos/update-user.dto'
-import { User } from './models/entities/users.entity'
-import { UserRoles } from './models/enums/user-roles.enum'
 import { RolesGuard } from './guards/roles.guard'
 import { UserIsUser } from './guards/user-is-user.guard'
-import { SignIn } from './models/SignIn'
 import { CheckPasswordsMatch } from './pipes/check-passwords-match.pipe'
-
 import { UsersService } from './users.service'
-import { FileInterceptor } from '@nestjs/platform-express'
 import { AuthUser } from './decorators/auth-user.decorator'
+import {
+  SignIn,
+  SignInDTO,
+  SignUpDTO,
+  UpdateUserDTO,
+  User,
+  UserRoles
+} from './models'
 
 @Controller('users')
 export class UsersController {

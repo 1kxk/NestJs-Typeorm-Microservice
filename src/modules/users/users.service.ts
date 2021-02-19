@@ -12,14 +12,16 @@ import { InjectRepository } from '@nestjs/typeorm'
 
 import { DiskStorageProvider } from '../../shared/providers/storage/implementations/disk-storage'
 import { AuthService } from '../../shared/modules/auth/auth.service'
-import { SignInDTO } from './models/dtos/sign-in.dto'
-import { SignUpDTO } from './models/dtos/sign-up.dto'
-import { UpdateUserDTO } from './models/dtos/update-user.dto'
-import { User } from './models/entities/users.entity'
-import { UserRoles } from './models/enums/user-roles.enum'
-import { SignIn } from './models/SignIn'
 import { UsersRepository } from './users.repository'
 import { Keys } from '../../config/cache.config'
+import {
+  SignIn,
+  SignInDTO,
+  SignUpDTO,
+  UpdateUserDTO,
+  User,
+  UserRoles
+} from './models'
 
 @Injectable()
 export class UsersService {
