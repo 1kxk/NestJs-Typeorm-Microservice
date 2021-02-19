@@ -1,4 +1,5 @@
 import {
+  CACHE_MANAGER,
   ConflictException,
   forwardRef,
   Inject,
@@ -6,6 +7,7 @@ import {
   NotFoundException,
   UnauthorizedException
 } from '@nestjs/common'
+import { Cache } from 'cache-manager'
 import { InjectRepository } from '@nestjs/typeorm'
 
 import { DiskStorageProvider } from '../../shared/providers/storage/implementations/disk-storage'
@@ -17,6 +19,7 @@ import { User } from './models/entities/users.entity'
 import { UserRoles } from './models/enums/user-roles.enum'
 import { SignIn } from './models/SignIn'
 import { UsersRepository } from './users.repository'
+import { Keys } from '../../config/cache.config'
 
 @Injectable()
 export class UsersService {
@@ -28,11 +31,22 @@ export class UsersService {
     private readonly authService: AuthService,
 
     @Inject('StorageService')
-    private readonly storageService: DiskStorageProvider
+    private readonly storageService: DiskStorageProvider,
+
+    @Inject(CACHE_MANAGER)
+    private readonly cacheManager: Cache
   ) {}
 
   async findAll(): Promise<User[]> {
-    return this.usersRepository.find()
+    let users = await this.cacheManager.get<User[]>(Keys.USERS_LIST)
+
+    if (!users) {
+      users = await this.usersRepository.find()
+
+      await this.cacheManager.set(Keys.USERS_LIST, users)
+    }
+
+    return users
   }
 
   async findOne(id: string): Promise<User> {
@@ -101,6 +115,9 @@ export class UsersService {
 
     user = this.usersRepository.create(payload)
     user.password = hashedPassword
+
+    await this.cacheManager.del(Keys.USERS_LIST)
+
     return this.usersRepository.save(user)
   }
 
@@ -126,6 +143,7 @@ export class UsersService {
     user.avatar = fileName
     await this.usersRepository.save(user)
 
+    await this.cacheManager.del(Keys.USERS_LIST)
     return user
   }
 
