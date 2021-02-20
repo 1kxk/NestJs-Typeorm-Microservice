@@ -27,8 +27,7 @@ import { UsersService } from './users.service'
       useFactory: async (configService: ConfigService) => ({
         ttl: 86400, // 1d
         store: redisStore,
-        max: 10,
-        isCacheableValue: true,
+        max: 20,
         host: configService.get<string>('cache.host'),
         port: configService.get<string>('cache.port')
       })

@@ -1,5 +1,4 @@
 import {
-  CACHE_MANAGER,
   ConflictException,
   forwardRef,
   Inject,
@@ -7,14 +6,12 @@ import {
   NotFoundException,
   UnauthorizedException
 } from '@nestjs/common'
-import { Cache } from 'cache-manager'
 import { InjectRepository } from '@nestjs/typeorm'
 
 import { StorageService } from '../../shared/modules/storage/storage.service'
 import { IStorageProvider } from '../../shared/modules/storage/providers/storage.provider'
 import { AuthService } from '../../shared/modules/auth/auth.service'
 import { UsersRepository } from './users.repository'
-import { Keys } from '../../config/cache.config'
 import {
   SignIn,
   SignInDTO,
@@ -34,34 +31,17 @@ export class UsersService {
     private readonly authService: AuthService,
 
     @Inject(StorageService)
-    private readonly storageProvider: IStorageProvider,
-
-    @Inject(CACHE_MANAGER)
-    private readonly cacheManager: Cache
+    private readonly storageProvider: IStorageProvider
   ) {}
 
   async findAll(user_id?: string): Promise<User[]> {
-    let users = await this.cacheManager.get<User[]>(Keys.USERS_LIST)
-
-    if (!users) {
-      users = await this.usersRepository.find()
-
-      await this.cacheManager.set(Keys.USERS_LIST, users)
-    }
-
-    return users
+    return this.usersRepository.find()
   }
 
   async findOne(id: string): Promise<User> {
-    let user = await this.cacheManager.get<User>(`${Keys.USER}:${id}`)
+    const user = await this.usersRepository.findOne(id)
 
-    if (!user) {
-      user = await this.usersRepository.findOne(id)
-
-      if (!user) throw new NotFoundException('User could not be found!')
-
-      await this.cacheManager.set(`${Keys.USER}:${id}`, user)
-    }
+    if (!user) throw new NotFoundException('User could not be found!')
 
     return user
   }
@@ -97,7 +77,6 @@ export class UsersService {
 
     user.name = payload.name ?? user.name
     await this.usersRepository.update(id, user)
-    await this.cacheManager.del(`${Keys.USER}:${id}`)
     return user
   }
 
@@ -106,14 +85,12 @@ export class UsersService {
 
     const updatedUser = this.usersRepository.create({ ...user, role })
     await this.usersRepository.update(id, updatedUser)
-    await this.cacheManager.del(`${Keys.USER}:${id}`)
     return updatedUser
   }
 
   async deleteOne(id: string): Promise<void> {
     await this.findOne(id)
 
-    await this.cacheManager.del(`${Keys.USER}:${id}`)
     await this.usersRepository.delete(id)
   }
 
@@ -154,7 +131,6 @@ export class UsersService {
 
     user.avatar = fileName
     await this.usersRepository.save(user)
-    await this.cacheManager.del(`${Keys.USER}:${id}`)
 
     return user
   }

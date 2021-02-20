@@ -1,5 +1,7 @@
 import {
   Body,
+  CacheInterceptor,
+  CacheTTL,
   Controller,
   Delete,
   Get,
@@ -34,6 +36,8 @@ import {
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
+  @CacheTTL(10)
+  @UseInterceptors(CacheInterceptor)
   @UseGuards(JwtAuthGuard)
   @Get()
   async findAll(): Promise<User[]> {
