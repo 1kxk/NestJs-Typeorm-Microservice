@@ -38,6 +38,7 @@
     "max-classes-per-file": "off",
     "node/no-path-concat": "off",
     "no-use-before-define": "off",
+    "import/default": "off",
     "eqeqeq": "off",
     "import/no-named-as-default-member": "off",
     "@typescript-eslint/no-var-requires": "off",

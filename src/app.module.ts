@@ -11,6 +11,8 @@ import { UsersModule } from './modules/users/users.module'
 import { AuthModule } from './shared/modules/auth/auth.module'
 import { NotificationsModule } from './modules/notifications/notifications.module'
 import { DiskStorageProvider } from './shared/providers/storage/implementations/disk-storage'
+import { EtheralMailProvider } from './shared/providers/email/implementations/etheral-mail'
+import { HandleBarsTemplateProvider } from './shared/providers/emailTemplate/implementations/handle-bars-template'
 
 @Module({
   imports: [
@@ -67,6 +69,14 @@ import { DiskStorageProvider } from './shared/providers/storage/implementations/
     {
       provide: 'StorageProvider',
       useClass: DiskStorageProvider
+    },
+    {
+      provide: 'MailProvider',
+      useClass: EtheralMailProvider
+    },
+    {
+      provide: 'MailTemplateProvider',
+      useClass: HandleBarsTemplateProvider
     }
   ]
 })
