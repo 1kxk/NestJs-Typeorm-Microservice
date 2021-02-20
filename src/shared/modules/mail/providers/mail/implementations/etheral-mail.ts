@@ -2,8 +2,8 @@ import { Inject, Injectable } from '@nestjs/common'
 import nodemailer from 'nodemailer'
 import Mail from 'nodemailer/lib/mailer'
 
-import { IMailTemplateProvider } from '../../emailTemplate/email-template.provider'
-import { SendMailDTO } from '../dtos/send-email.dto'
+import { SendMailDTO } from '../../../dtos/send-email.dto'
+import { IMailTemplateProvider } from '../../mailTemplate/email-template.provider'
 import { IMailProvider } from '../email.provider'
 
 @Injectable()

@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common'
 import fs from 'fs'
 import handlebars from 'handlebars'
 
-import { ParseMailTemplateDTO } from '../dtos/parse-mail-template.dto'
+import { ParseMailTemplateDTO } from '../../../dtos/parse-mail-template.dto'
 import { IMailTemplateProvider } from '../email-template.provider'
 
 @Injectable()

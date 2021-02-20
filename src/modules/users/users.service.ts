@@ -10,7 +10,8 @@ import {
 import { Cache } from 'cache-manager'
 import { InjectRepository } from '@nestjs/typeorm'
 
-import { DiskStorageProvider } from '../../shared/providers/storage/implementations/disk-storage'
+import { StorageService } from '../../shared/modules/storage/storage.service'
+import { IStorageProvider } from '../../shared/modules/storage/providers/storage.provider'
 import { AuthService } from '../../shared/modules/auth/auth.service'
 import { UsersRepository } from './users.repository'
 import { Keys } from '../../config/cache.config'
@@ -32,8 +33,8 @@ export class UsersService {
     @Inject(forwardRef(() => AuthService))
     private readonly authService: AuthService,
 
-    @Inject('StorageService')
-    private readonly storageService: DiskStorageProvider,
+    @Inject(StorageService)
+    private readonly storageProvider: IStorageProvider,
 
     @Inject(CACHE_MANAGER)
     private readonly cacheManager: Cache
@@ -148,7 +149,7 @@ export class UsersService {
   }
 
   async updateAvatar(id: string, filePath: any): Promise<User> {
-    const fileName = await this.storageService.saveFile(filePath)
+    const fileName = await this.storageProvider.saveFile(filePath)
     const user = await this.findOne(id)
 
     user.avatar = fileName

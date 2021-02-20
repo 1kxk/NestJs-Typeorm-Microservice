@@ -1,4 +1,4 @@
-import { ParseMailTemplateDTO } from '../../../../shared/providers/emailTemplate/dtos/parse-mail-template.dto'
+import { ParseMailTemplateDTO } from './parse-mail-template.dto'
 
 export class MailContact {
   name: string
