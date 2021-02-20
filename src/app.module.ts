@@ -1,5 +1,4 @@
-import { Module, CacheModule } from '@nestjs/common'
-import redisStore from 'cache-manager-redis-store'
+import { Module } from '@nestjs/common'
 import { ConfigModule, ConfigService } from '@nestjs/config'
 import { TypeOrmModule } from '@nestjs/typeorm'
 import { MongooseModule } from '@nestjs/mongoose'
@@ -10,9 +9,8 @@ import { storageConfig } from './config/storage.config'
 import { UsersModule } from './modules/users/users.module'
 import { AuthModule } from './shared/modules/auth/auth.module'
 import { NotificationsModule } from './modules/notifications/notifications.module'
-import { DiskStorageProvider } from './shared/providers/storage/implementations/disk-storage'
-import { EtheralMailProvider } from './shared/providers/email/implementations/etheral-mail'
-import { HandleBarsTemplateProvider } from './shared/providers/emailTemplate/implementations/handlebars-template'
+import { MailModule } from './shared/modules/mail/mail.module'
+import { StorageModule } from './shared/modules/storage/storage.module'
 
 @Module({
   imports: [
@@ -21,16 +19,6 @@ import { HandleBarsTemplateProvider } from './shared/providers/emailTemplate/imp
       cache: true,
       load: [sqlDatabase, nosqlDatabase, authConfig, storageConfig],
       envFilePath: [`.env.${process.env.NODE_ENV}`]
-    }),
-    CacheModule.registerAsync({
-      imports: [ConfigModule],
-      inject: [ConfigModule],
-      useFactory: async (configService: ConfigService) => ({
-        ttl: 86400, // 1d
-        store: redisStore,
-        host: configService.get<string>('cache.host'),
-        port: configService.get<string>('cache.port')
-      })
     }),
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
@@ -63,21 +51,9 @@ import { HandleBarsTemplateProvider } from './shared/providers/emailTemplate/imp
     }),
     AuthModule,
     UsersModule,
-    NotificationsModule
-  ],
-  providers: [
-    {
-      provide: 'StorageProvider',
-      useClass: DiskStorageProvider
-    },
-    {
-      provide: 'MailProvider',
-      useClass: EtheralMailProvider
-    },
-    {
-      provide: 'MailTemplateProvider',
-      useClass: HandleBarsTemplateProvider
-    }
+    NotificationsModule,
+    StorageModule,
+    MailModule
   ]
 })
 export class AppModule {}
