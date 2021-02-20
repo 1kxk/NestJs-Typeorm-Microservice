@@ -46,6 +46,10 @@ import { StorageModule } from './shared/modules/storage/storage.module'
         uri: configService.get('nosqlDatabase.url'),
         connectionName: configService.get('nosqlDatabase.name'),
         dbName: configService.get('nosqlDatabase.database'),
+        useUnifiedTopology: false,
+        autoCreate: true,
+        autoIndex: true,
+        autoReconnect: true,
         keepAlive: true
       })
     }),
