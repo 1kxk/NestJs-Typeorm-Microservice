@@ -8,7 +8,7 @@ const filename = 'test.txt'
 const filenameTmpPath = path.resolve(__dirname, 'tmp', filename)
 const filenameUploadPath = path.resolve(__dirname, 'tmp', 'uploads', filename)
 
-describe('Users Service', () => {
+describe('DiskStorage Provider', () => {
   let sut: DiskStorageProvider
   let configService: ConfigService
 
