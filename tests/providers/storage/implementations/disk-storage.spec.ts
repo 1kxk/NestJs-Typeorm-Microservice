@@ -2,7 +2,7 @@ import { ConfigService } from '@nestjs/config'
 import path from 'path'
 import fs from 'fs'
 
-import { DiskStorageProvider } from '../../../src/shared/providers/storage/implementations/disk-storage'
+import { DiskStorageProvider } from '../../../../src/shared/providers/storage/implementations/disk-storage'
 
 const filename = 'test.txt'
 const filenameTmpPath = path.resolve(__dirname, 'tmp', filename)
