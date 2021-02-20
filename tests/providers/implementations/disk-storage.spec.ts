@@ -2,19 +2,19 @@ import { ConfigService } from '@nestjs/config'
 import path from 'path'
 import fs from 'fs'
 
-import { DiskStorage } from '../../../src/shared/providers/storage/implementations/disk-storage'
+import { DiskStorageProvider } from '../../../src/shared/providers/storage/implementations/disk-storage'
 
 const filename = 'test.txt'
 const filenameTmpPath = path.resolve(__dirname, 'tmp', filename)
 const filenameUploadPath = path.resolve(__dirname, 'tmp', 'uploads', filename)
 
 describe('Users Service', () => {
-  let sut: DiskStorage
+  let sut: DiskStorageProvider
   let configService: ConfigService
 
   beforeEach(async () => {
     configService = new ConfigService()
-    sut = new DiskStorage(configService)
+    sut = new DiskStorageProvider(configService)
   })
 
   describe('saveFile()', () => {
