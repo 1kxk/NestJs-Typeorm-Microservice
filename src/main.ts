@@ -1,12 +1,13 @@
+import { resolve } from 'path'
+import { cwd } from 'process'
+
 import { Logger, ValidationPipe } from '@nestjs/common'
 import { NestFactory } from '@nestjs/core'
 import { ConfigService } from '@nestjs/config'
 import { config } from 'dotenv'
-import { resolve } from 'path'
 import 'colors'
 
 import { AppModule } from './app.module'
-import { cwd } from 'process'
 import { AllExceptionFilter } from './shared/filters/http-exception.filter'
 import { LoggingInterceptor } from './shared/interceptors/logging.interceptor'
 

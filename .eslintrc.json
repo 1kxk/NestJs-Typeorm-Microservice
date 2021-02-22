@@ -42,6 +42,7 @@
     "eqeqeq": "off",
     "import/no-named-as-default-member": "off",
     "@typescript-eslint/no-var-requires": "off",
+    "import/order": ["error", { "newlines-between": "always" }],
     "@typescript-eslint/no-unused-vars": [
       "error",
       {

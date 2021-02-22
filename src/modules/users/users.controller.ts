@@ -14,9 +14,10 @@ import {
   UseInterceptors
 } from '@nestjs/common'
 import { FileInterceptor } from '@nestjs/platform-express'
-
 import { classToClass } from 'class-transformer'
+
 import { JwtAuthGuard } from '../../shared/modules/auth/guards/jwt.guard'
+
 import { hasRoles } from './decorators/roles.decorator'
 import { RolesGuard } from './guards/roles.guard'
 import { UserIsUser } from './guards/user-is-user.guard'

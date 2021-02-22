@@ -7,6 +7,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config'
 import { MailModule } from '../../shared/modules/mail/mail.module'
 import { StorageModule } from '../../shared/modules/storage/storage.module'
 import { AuthModule } from '../../shared/modules/auth/auth.module'
+
 import { RolesGuard } from './guards/roles.guard'
 import { UserIsUser } from './guards/user-is-user.guard'
 import { UsersController } from './users.controller'

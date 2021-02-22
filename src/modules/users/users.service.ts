@@ -11,6 +11,7 @@ import { InjectRepository } from '@nestjs/typeorm'
 import { StorageService } from '../../shared/modules/storage/storage.service'
 import { IStorageProvider } from '../../shared/modules/storage/providers/storage.provider'
 import { AuthService } from '../../shared/modules/auth/auth.service'
+
 import { UsersRepository } from './users.repository'
 import {
   SignIn,
