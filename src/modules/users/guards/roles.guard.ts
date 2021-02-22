@@ -2,6 +2,7 @@ import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common'
 import { Reflector } from '@nestjs/core'
 import { from, Observable } from 'rxjs'
 import { map } from 'rxjs/operators'
+
 import { User } from '../models/entities/users.entity'
 import { UsersService } from '../users.service'
 

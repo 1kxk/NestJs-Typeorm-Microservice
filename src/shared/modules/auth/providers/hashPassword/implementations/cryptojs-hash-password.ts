@@ -1,5 +1,6 @@
-import { Injectable } from '@nestjs/common'
 import Crypto from 'crypto'
+
+import { Injectable } from '@nestjs/common'
 
 import { IHashPassword } from '../../hash-password.provider'
 

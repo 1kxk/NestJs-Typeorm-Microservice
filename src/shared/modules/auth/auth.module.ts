@@ -2,8 +2,9 @@ import { forwardRef, Module } from '@nestjs/common'
 import { JwtModule } from '@nestjs/jwt'
 import { ConfigModule, ConfigService } from '@nestjs/config'
 
-import { AuthService } from './auth.service'
 import { UsersModule } from '../../../modules/users/users.module'
+
+import { AuthService } from './auth.service'
 import { JwtAuthGuard } from './guards/jwt.guard'
 import { JwtStrategy } from './guards/jwt.strategy'
 import { CryptojsHashPassword } from './providers/hashPassword/implementations/cryptojs-hash-password'

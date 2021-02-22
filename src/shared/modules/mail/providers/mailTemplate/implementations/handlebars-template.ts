@@ -1,5 +1,6 @@
-import { Injectable } from '@nestjs/common'
 import fs from 'fs'
+
+import { Injectable } from '@nestjs/common'
 import handlebars from 'handlebars'
 
 import { ParseMailTemplateDTO } from '../../../dtos/parse-mail-template.dto'
