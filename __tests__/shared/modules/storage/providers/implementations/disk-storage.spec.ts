@@ -1,6 +1,7 @@
-import { ConfigService } from '@nestjs/config'
 import path from 'path'
 import fs from 'fs'
+
+import { ConfigService } from '@nestjs/config'
 
 import { DiskStorageProvider } from '../../../../../../src/shared/modules/storage/providers/implementations/disk-storage'
 
