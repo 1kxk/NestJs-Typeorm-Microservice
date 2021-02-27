@@ -7,4 +7,8 @@ export class NotificationsService {
   constructor(
     private readonly notificationsRepository: NotificationsRepository
   ) {}
+
+  async create(payload: CreateNoficationDTO): Promise<Notification> {
+    return this.notificationsRepository.create(payload)
+  }
 }
