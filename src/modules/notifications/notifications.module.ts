@@ -1,10 +1,10 @@
 import { Module } from '@nestjs/common'
-import { MongooseModule } from '@nestjs/mongoose'
+import { MongooseModule } from 'modules/notifications/domain/entities/node_modules/@nestjs/mongoose'
 
 import {
   NotificationSchema,
   Notification
-} from './models/entities/notification'
+} from './domain/entities/notification'
 import { NotificationsRepository } from './notifications.repository'
 import { NotificationsService } from './notifications.service'
 

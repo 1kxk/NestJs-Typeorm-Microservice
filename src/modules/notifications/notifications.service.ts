@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common'
 
-import { CreateNoficationDTO } from './models/dtos/create-notification.dto'
-import { NotificationDocument } from './models/entities/notification'
+import { CreateNoficationDTO } from './domain/dtos/create-notification.dto'
+import { NotificationDocument } from './domain/entities/notification'
 import { NotificationsRepository } from './notifications.repository'
 
 @Injectable()

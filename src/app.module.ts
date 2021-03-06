@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common'
 import { ConfigModule, ConfigService } from '@nestjs/config'
 import { TypeOrmModule } from '@nestjs/typeorm'
-import { MongooseModule } from '@nestjs/mongoose'
+import { MongooseModule } from 'modules/notifications/domain/entities/node_modules/@nestjs/mongoose'
 
 import { authConfig } from './config/auth.config'
 import { nosqlDatabase, sqlDatabase } from './config/database.config'
