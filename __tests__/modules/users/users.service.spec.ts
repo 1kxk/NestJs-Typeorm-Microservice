@@ -9,12 +9,14 @@ import { DeleteResult, UpdateResult } from 'typeorm'
 import { AppModule } from '../../../src/app.module'
 import { UsersService } from '../../../src/modules/users/users.service'
 import { UsersRepository } from '../../../src/modules/users/users.repository'
-import { UserRoles } from '../../../src/modules/users/models/enums/user-roles.enum'
 import { AuthService } from '../../../src/shared/modules/auth/auth.service'
-import { SignUpDTO } from '../../../src/modules/users/models/dtos/sign-up.dto'
-import { SignInDTO } from '../../../src/modules/users/models/dtos/sign-in.dto'
 import { usersMock } from '../../mocks/users.mock'
 import { StorageService } from '../../../src/shared/modules/storage/storage.service'
+import {
+  SignInDTO,
+  SignUpDTO,
+  UserRoles
+} from '../../../src/modules/users/domain'
 
 const id = '22d0431e-50e2-4c86-a0a3-b414a43def4f'
 describe('Users Service', () => {

@@ -20,7 +20,7 @@ import {
   UpdateUserDTO,
   User,
   UserRoles
-} from './models'
+} from './domain'
 
 @Injectable()
 export class UsersService {

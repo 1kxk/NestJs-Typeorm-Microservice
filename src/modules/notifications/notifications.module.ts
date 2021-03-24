@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common'
-import { MongooseModule } from 'modules/notifications/domain/entities/node_modules/@nestjs/mongoose'
+import { MongooseModule } from '@nestjs/mongoose'
 
 import {
   NotificationSchema,

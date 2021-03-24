@@ -5,11 +5,11 @@ import { DeleteResult, UpdateResult } from 'typeorm'
 import request from 'supertest'
 
 import { AppModule } from '../../../src/app.module'
-import { UserRoles } from '../../../src/modules/users/models/enums/user-roles.enum'
+import { UserRoles } from '../../../src/modules/users/domain/enums/user-roles.enum'
 import { UsersRepository } from '../../../src/modules/users/users.repository'
 import { usersMock } from '../../mocks/users.mock'
-import { SignUpDTO } from '../../../src/modules/users/models/dtos/sign-up.dto'
-import { SignInDTO } from '../../../src/modules/users/models/dtos/sign-in.dto'
+import { SignUpDTO } from '../../../src/modules/users/domain/dtos/sign-up.dto'
+import { SignInDTO } from '../../../src/modules/users/domain/dtos/sign-in.dto'
 
 describe('UsersController (e2e)', () => {
   let app: INestApplication

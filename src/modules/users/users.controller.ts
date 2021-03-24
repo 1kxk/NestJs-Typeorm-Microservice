@@ -31,7 +31,7 @@ import {
   UpdateUserDTO,
   User,
   UserRoles
-} from './models'
+} from './domain'
 
 @Controller('users')
 export class UsersController {
