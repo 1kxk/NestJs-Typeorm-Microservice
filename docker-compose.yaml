@@ -1,0 +1,76 @@
+version: '3'
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    links:
+      - redis
+    container_name: app
+    env_file:
+      - .env.development
+    networks:
+      - nest-network
+    volumes:
+      - .:/usr/share/app
+    tty: true
+    ports:
+      - '3333:3333'
+    depends_on:
+      - postgresql
+      - mongodb
+      - redis
+
+  postgresql:
+    image: postgres:latest
+    container_name: postgres
+    restart: always
+    tty: true
+    environment:
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_DB: 'development'
+      PG_DATA: /var/lib/postgresql/data
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    networks:
+      - nest-network
+    ports:
+      - '5432:5432'
+
+  adminer:
+    image: adminer:latest
+    restart: always
+    ports:
+      - '8888:8080'
+    networks:
+      - nest-network
+
+  mongodb:
+    image: mongo:latest
+    container_name: mongodb
+    restart: always
+    tty: true
+    volumes:
+      - mongodata:/data/db
+    networks:
+      - nest-network
+    ports:
+      - '27017:27017'
+
+  redis:
+    image: redis:latest
+    container_name: redis
+    networks:
+      - nest-network
+    ports:
+      - '6379:6379'
+
+networks:
+  nest-network:
+    driver: bridge
+
+volumes:
+  pgdata:
+  mongodata:
