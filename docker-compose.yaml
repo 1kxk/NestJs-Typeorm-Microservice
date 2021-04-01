@@ -13,7 +13,7 @@ services:
     networks:
       - nest-network
     volumes:
-      - .:/usr/share/app
+      - .:/usr/src/app
     tty: true
     ports:
       - '3333:3333'
