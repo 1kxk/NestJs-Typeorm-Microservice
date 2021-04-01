@@ -17,9 +17,13 @@ import { UsersService } from './users.service'
 @Module({
   imports: [
     TypeOrmModule.forFeature([UsersRepository]),
-    forwardRef(() => AuthModule),
-    MulterModule.register({
-      dest: __dirname + '/../../../tmp'
+    MulterModule.registerAsync({
+      imports: [ConfigModule],
+      inject: [ConfigService],
+
+      useFactory: async (configService: ConfigService) => ({
+        dest: configService.get<string>('storage.tmpFolder')
+      })
     }),
     CacheModule.registerAsync({
       imports: [ConfigModule],
@@ -33,6 +37,7 @@ import { UsersService } from './users.service'
         port: configService.get<string>('cache.port')
       })
     }),
+    forwardRef(() => AuthModule),
     StorageModule,
     MailModule
   ],
