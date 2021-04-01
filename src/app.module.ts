@@ -3,9 +3,13 @@ import { ConfigModule, ConfigService } from '@nestjs/config'
 import { TypeOrmModule } from '@nestjs/typeorm'
 import { MongooseModule } from '@nestjs/mongoose'
 
-import { authConfig } from './config/auth.config'
-import { nosqlDatabase, sqlDatabase } from './config/database.config'
-import { storageConfig } from './config/storage.config'
+import {
+  nosqlDatabase,
+  sqlDatabase,
+  authConfig,
+  cacheConfig,
+  storageConfig
+} from './config'
 import { UsersModule } from './modules/users/users.module'
 import { AuthModule } from './shared/modules/auth/auth.module'
 import { NotificationsModule } from './modules/notifications/notifications.module'
@@ -17,7 +21,13 @@ import { StorageModule } from './shared/modules/storage/storage.module'
     ConfigModule.forRoot({
       isGlobal: true,
       cache: true,
-      load: [sqlDatabase, nosqlDatabase, authConfig, storageConfig],
+      load: [
+        sqlDatabase,
+        nosqlDatabase,
+        authConfig,
+        storageConfig,
+        cacheConfig
+      ],
       envFilePath: [`.env.${process.env.NODE_ENV}`]
     }),
     TypeOrmModule.forRootAsync({
@@ -46,10 +56,9 @@ import { StorageModule } from './shared/modules/storage/storage.module'
         uri: configService.get('nosqlDatabase.url'),
         connectionName: configService.get('nosqlDatabase.name'),
         dbName: configService.get('nosqlDatabase.database'),
-        useUnifiedTopology: false,
+        useUnifiedTopology: true,
         autoCreate: true,
         autoIndex: true,
-        autoReconnect: true,
         keepAlive: true
       })
     }),
