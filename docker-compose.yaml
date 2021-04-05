@@ -9,14 +9,14 @@ services:
       - redis
     container_name: app
     env_file:
-      - .env.development
+      - .env
     networks:
       - nest-network
     volumes:
       - .:/usr/src/app
     tty: true
     ports:
-      - '3333:3333'
+      - '${PORT}:${PORT}'
     depends_on:
       - postgresql
       - mongodb
@@ -27,17 +27,19 @@ services:
     container_name: postgres
     restart: always
     tty: true
+    env_file:
+      - .env
     environment:
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_USER: postgres
-      POSTGRES_DB: 'development'
+      POSTGRES_PASSWORD: ${SQL_PASSWORD}
+      POSTGRES_USER: ${SQL_USERNAME}
+      POSTGRES_DB: ${SQL_DATABASE}
       PG_DATA: /var/lib/postgresql/data
     volumes:
-      - pgdata:/var/lib/postgresql/data
+      - ./pgdata:/var/lib/postgresql/data
     networks:
       - nest-network
     ports:
-      - '5432:5432'
+      - '${SQL_PORT}:${SQL_PORT}'
 
   adminer:
     image: adminer:latest
@@ -52,25 +54,25 @@ services:
     container_name: mongodb
     restart: always
     tty: true
+    env_file:
+      - .env
     volumes:
-      - mongodata:/data/db
+      - ./mongodata:/data/db
     networks:
       - nest-network
     ports:
-      - '27017:27017'
+      - '${NOSQL_PORT}:${NOSQL_PORT}'
 
   redis:
     image: redis:latest
     container_name: redis
+    env_file:
+      - .env
     networks:
       - nest-network
     ports:
-      - '6379:6379'
+      - '${CACHE_PORT}:${CACHE_PORT}'
 
 networks:
   nest-network:
     driver: bridge
-
-volumes:
-  pgdata:
-  mongodata:

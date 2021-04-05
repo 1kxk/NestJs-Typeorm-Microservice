@@ -28,7 +28,7 @@ import { StorageModule } from './shared/modules/storage/storage.module'
         storageConfig,
         cacheConfig
       ],
-      envFilePath: [`.env.${process.env.NODE_ENV}`]
+      envFilePath: ['.env']
     }),
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
