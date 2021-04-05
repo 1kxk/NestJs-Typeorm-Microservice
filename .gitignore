@@ -40,3 +40,5 @@ apidoc
 .env*
 !.env.example
 ormconfig.json
+mongodata
+pgdata

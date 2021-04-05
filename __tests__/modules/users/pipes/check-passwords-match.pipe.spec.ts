@@ -2,7 +2,7 @@ import { Test, TestingModule } from '@nestjs/testing'
 
 import { AppModule } from '../../../../src/app.module'
 import { CheckPasswordsMatch } from '../../../../src/modules/users/pipes/check-passwords-match.pipe'
-import { SignUpDTO } from '../../../../src/modules/users/models/dtos/sign-up.dto'
+import { SignUpDTO } from '../../../../src/modules/users/domain/dtos'
 
 const usersMock = {
   name: 'name',
