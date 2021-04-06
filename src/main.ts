@@ -1,6 +1,3 @@
-import { resolve } from 'path'
-import { cwd } from 'process'
-
 import { Logger, ValidationPipe } from '@nestjs/common'
 import { NestFactory } from '@nestjs/core'
 import { ConfigService } from '@nestjs/config'

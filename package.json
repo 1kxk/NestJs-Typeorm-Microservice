@@ -14,7 +14,7 @@
     "start:dev": "nest start --watch tsconfig-paths/register",
     "start:debug": "nest start --debug --watch tsconfig-paths/register",
     "start:prod": "node dist/main",
-    "test": "jest --passWithNoTests --silent --noStackTrace --runInBand --detectOpenHandles",
+    "test": "jest --passWithNoTests --silent --noStackTrace --runInBand --detectOpenHandles --forceExit",
     "test:unit": "npm test -- -c jest-unit.config.js",
     "test:integration": "npm test -- -c jest-integration.config.js",
     "test:staged": "npm test -- --findRelatedTests",
