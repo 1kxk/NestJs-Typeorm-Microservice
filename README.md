@@ -1,3 +1,6 @@
+### Usage
+  bash execute.sh
+
 ### Credits
 
 - Template structure based on the Gostack bootcamp provided by [Rocketseat](https://github.com/Rocketseat)
