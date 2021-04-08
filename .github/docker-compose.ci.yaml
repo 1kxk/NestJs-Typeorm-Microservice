@@ -1,0 +1,39 @@
+version: '3'
+
+services:
+  postgresql:
+    image: postgres
+    container_name: postgres
+    restart: always
+    tty: true
+    environment:
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_DB: ci_database_postgres
+      PG_DATA: /var/lib/postgresql/data
+    networks:
+      - nest-network
+    ports:
+      - '5432:5432'
+
+  mongodb:
+    image: mongo
+    container_name: mongodb
+    restart: always
+    tty: true
+    networks:
+      - nest-network
+    ports:
+      - '27017:27017'
+
+  redis:
+    image: redis
+    container_name: redis
+    networks:
+      - nest-network
+    ports:
+      - '6379:6379'
+
+networks:
+  nest-network:
+    driver: bridge

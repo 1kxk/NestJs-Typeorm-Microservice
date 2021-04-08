@@ -1,0 +1,60 @@
+name: nestjs-workflow
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  check-application:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [14.x, 15.x]
+
+    steps:
+      - name: Prepare environment
+        uses: actions/checkout@v2
+
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Create env file
+        run: |
+          touch .env
+          echo JWT_SECRET=${{ secrets.JWT_SECRET }} >> .env
+          echo JWT_EXPIRES_IN=${{ secrets.JWT_EXPIRES_IN }} >> .env
+          echo APP_SECRET=${{ secrets.APP_SECRET }} >> .env
+          echo CACHE_HOST=${{ secrets.CACHE_HOST }} >> .env
+          echo CACHE_PORT=${{ secrets.CACHE_PORT }} >> .env
+          echo SQL_TYPE=${{ secrets.SQL_TYPE }} >> .env
+          echo SQL_NAME=${{ secrets.SQL_NAME }} >> .env
+          echo SQL_CONNECTION=${{ secrets.SQL_CONNECTION }} >> .env
+          echo SQL_DATABASE=${{ secrets.SQL_DATABASE }} >> .env
+          echo SQL_USERNAME=${{ secrets.SQL_USERNAME }} >> .env
+          echo SQL_PASSWORD=${{ secrets.SQL_PASSWORD }} >> .env
+          echo SQL_HOST=${{ secrets.SQL_HOST }} >> .env
+          echo SQL_PORT=${{ secrets.SQL_PORT }} >> .env
+          echo SQL_SYNCHRONIZE=${{ secrets.SQL_SYNCHRONIZE }} >> .env
+          echo SQL_AUTOLOADENTITIES=${{ secrets.SQL_AUTOLOADENTITIES }} >> .env
+          echo NOSQL_TYPE=${{ secrets.NOSQL_TYPE }} >> .env
+          echo NOSQL_NAME=${{ secrets.NOSQL_NAME }} >> .env
+          echo NOSQL_CONNECTION=${{ secrets.NOSQL_CONNECTION }} >> .env
+          echo NOSQL_DATABASE=${{ secrets.NOSQL_DATABASE }} >> .env
+          echo NOSQL_USERNAME=${{ secrets.NOSQL_USERNAME }} >> .env
+          echo NOSQL_PASSWORD=${{ secrets.NOSQL_PASSWORD }} >> .env
+          echo NOSQL_HOST=${{ secrets.NOSQL_HOST }} >> .env
+          echo NOSQL_PORT=${{ secrets.NOSQL_PORT }} >> .env
+
+      - name: Build docker images
+        run: docker-compose -f ./.github/docker-compose.ci.yaml up --build -d
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run Lint
+        run: npm run lint
+
+      - name: Run Tests
+        run: npm run test

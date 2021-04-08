@@ -5,6 +5,7 @@ import {
   UnauthorizedException
 } from '@nestjs/common'
 import { DeleteResult, UpdateResult } from 'typeorm'
+import { TypeOrmModule } from '@nestjs/typeorm'
 
 import { AppModule } from '../../../src/app.module'
 import { UsersService } from '../../../src/modules/users/users.service'
@@ -20,14 +21,15 @@ import {
 
 const id = '22d0431e-50e2-4c86-a0a3-b414a43def4f'
 describe('Users Service', () => {
+  let app: TestingModule
   let sut: UsersService
   let authService: AuthService
   let usersRepository: UsersRepository
   let storageService: StorageService
 
   beforeEach(async () => {
-    const app: TestingModule = await Test.createTestingModule({
-      imports: [AppModule]
+    app = await Test.createTestingModule({
+      imports: [AppModule, TypeOrmModule]
     }).compile()
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -63,6 +65,10 @@ describe('Users Service', () => {
     jest
       .spyOn(storageService, 'saveFile')
       .mockImplementation(async () => Promise.resolve('path'))
+  })
+
+  afterEach(async () => {
+    app.close()
   })
 
   describe('findAll()', () => {

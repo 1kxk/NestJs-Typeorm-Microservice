@@ -13,14 +13,19 @@ const usersMock = {
 } as SignUpDTO
 
 describe('Users Pipe', () => {
+  let app: TestingModule
   let sut: CheckPasswordsMatch
 
   beforeEach(async () => {
-    const app: TestingModule = await Test.createTestingModule({
+    app = await Test.createTestingModule({
       imports: [AppModule]
     }).compile()
 
     sut = app.get<CheckPasswordsMatch>(CheckPasswordsMatch)
+  })
+
+  afterEach(async () => {
+    app.close()
   })
 
   describe('transform()', () => {
