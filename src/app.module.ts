@@ -43,8 +43,10 @@ import { StorageModule } from './shared/modules/storage/storage.module'
         password: configService.get('sqlDatabase.password'),
         database: configService.get('sqlDatabase.database'),
         entities: [__dirname + '/../dist/modules/**/models/entities/*.js'],
-        synchronize: configService.get('sqlDatabase.synchronize'),
-        autoLoadEntities: configService.get('sqlDatabase.autoLoadEntities'),
+        migrations: [process.cwd() + '/src/shared/database/migrations/*.ts'],
+        cli: {
+          migrationsDir: process.cwd() + '/src/shared/database/migrations'
+        },
         keepConnectionAlive: true
       })
     }),
