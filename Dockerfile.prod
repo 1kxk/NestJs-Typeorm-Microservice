@@ -1,12 +1,14 @@
 FROM node:14 As development
-WORKDIR /usr/src/app
+WORKDIR /usr/app
 COPY package*.json ./
 RUN npm install
 COPY . .
 RUN npm run build
 
 FROM node:14-alpine as production
-WORKDIR /usr/src/app
-COPY --from=development /usr/src/app/dist .
+WORKDIR /usr/app
+ARG PORT=3333
+EXPOSE ${PORT}
+COPY --from=development /usr/app/dist .
 CMD ["node", "dist/main.js"]
 

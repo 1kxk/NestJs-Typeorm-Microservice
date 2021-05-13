@@ -4,9 +4,8 @@ services:
   app:
     build:
       context: .
-      dockerfile: Dockerfile
-    links:
-      - redis
+      dockerfile: Dockerfile.dev
+    entrypoint: .docker/entrypoint.sh
     container_name: app
     env_file:
       - .env
@@ -17,6 +16,10 @@ services:
     tty: true
     ports:
       - '${PORT}:${PORT}'
+    links:
+      - postgresql
+      - mongodb
+      - redis
     depends_on:
       - postgresql
       - mongodb
@@ -35,19 +38,11 @@ services:
       POSTGRES_DB: ${SQL_DATABASE}
       PG_DATA: /var/lib/postgresql/data
     volumes:
-      - ./pgdata:/var/lib/postgresql/data
+      - ./.docker/pgdata:/var/lib/postgresql/data
     networks:
       - nest-network
     ports:
       - '${SQL_PORT}:${SQL_PORT}'
-
-  adminer:
-    image: adminer:latest
-    restart: always
-    ports:
-      - '8888:8080'
-    networks:
-      - nest-network
 
   mongodb:
     image: mongo:latest
@@ -57,7 +52,7 @@ services:
     env_file:
       - .env
     volumes:
-      - ./mongodata:/data/db
+      - ./.docker/mongodata:/data/db
     networks:
       - nest-network
     ports:

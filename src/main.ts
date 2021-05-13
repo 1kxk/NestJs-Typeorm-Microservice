@@ -1,5 +1,6 @@
 import { Logger, ValidationPipe } from '@nestjs/common'
 import { NestFactory } from '@nestjs/core'
+import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger'
 import { ConfigService } from '@nestjs/config'
 import 'colors'
 
@@ -20,6 +21,16 @@ async function bootstrap() {
       whitelist: true
     })
   )
+
+  // SETUP DOCS
+  const config = new DocumentBuilder()
+    .setTitle('Car Rentals')
+    .setDescription('')
+    .setVersion('1.0')
+    .addTag('cars')
+    .build()
+  const document = SwaggerModule.createDocument(app, config)
+  SwaggerModule.setup('docs', app, document)
 
   await app.listen(configService.get('PORT'))
   Logger.log(
