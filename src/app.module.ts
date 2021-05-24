@@ -12,9 +12,6 @@ import {
 } from './config'
 import { UsersModule } from './modules/users/users.module'
 import { AuthModule } from './shared/modules/auth/auth.module'
-import { NotificationsModule } from './modules/notifications/notifications.module'
-import { MailModule } from './shared/modules/mail/mail.module'
-import { StorageModule } from './shared/modules/storage/storage.module'
 
 @Module({
   imports: [
@@ -65,10 +62,7 @@ import { StorageModule } from './shared/modules/storage/storage.module'
       })
     }),
     AuthModule,
-    UsersModule,
-    NotificationsModule,
-    StorageModule,
-    MailModule
+    UsersModule
   ]
 })
 export class AppModule {}

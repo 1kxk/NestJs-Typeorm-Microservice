@@ -4,15 +4,15 @@ services:
   app:
     build:
       context: .
-      dockerfile: Dockerfile.prod
+      dockerfile: Dockerfile.dev
     entrypoint: .docker/entrypoint.sh
     container_name: app
     env_file:
-      - .env
+      - .env.example
     networks:
       - nest-network
     volumes:
-      - .:/usr/src/app
+      - .:/usr/app
     tty: true
     ports:
       - '${PORT}:${PORT}'
@@ -31,7 +31,7 @@ services:
     restart: always
     tty: true
     env_file:
-      - .env
+      - .env.example
     environment:
       POSTGRES_PASSWORD: ${SQL_PASSWORD}
       POSTGRES_USER: ${SQL_USERNAME}
@@ -50,7 +50,7 @@ services:
     restart: always
     tty: true
     env_file:
-      - .env
+      - .env.example
     volumes:
       - ./.docker/mongodata:/data/db
     networks:
@@ -62,7 +62,7 @@ services:
     image: redis:latest
     container_name: redis
     env_file:
-      - .env
+      - .env.example
     networks:
       - nest-network
     ports:

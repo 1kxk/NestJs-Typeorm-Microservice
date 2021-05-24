@@ -42,3 +42,4 @@ apidoc
 ormconfig.json
 mongodata
 pgdata
+.npm-cache

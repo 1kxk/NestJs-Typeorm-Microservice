@@ -9,29 +9,21 @@ import {
   Patch,
   Post,
   Put,
-  UploadedFile,
   UseGuards,
   UseInterceptors
 } from '@nestjs/common'
-import { FileInterceptor } from '@nestjs/platform-express'
 import { classToClass } from 'class-transformer'
 
 import { JwtAuthGuard } from '../../shared/modules/auth/guards/jwt.guard'
 
 import { hasRoles } from './decorators/roles.decorator'
-import { RolesGuard } from './guards/roles.guard'
-import { UserIsUser } from './guards/user-is-user.guard'
+import { RolesGuard, UserIsUser } from './guards'
 import { CheckPasswordsMatch } from './pipes/check-passwords-match.pipe'
 import { UsersService } from './users.service'
 import { AuthUser } from './decorators/auth-user.decorator'
-import {
-  SignIn,
-  SignInDTO,
-  SignUpDTO,
-  UpdateUserDTO,
-  User,
-  UserRoles
-} from './domain'
+import { SignIn, SignInDTO, SignUpDTO, User } from './domain'
+import { UserRoles } from './enums/user-roles.enum'
+import { UpdateUserDTO } from './dtos/update-user.dto'
 
 @Controller('users')
 export class UsersController {
@@ -60,8 +52,7 @@ export class UsersController {
     @AuthUser() user: User,
     @Body(CheckPasswordsMatch) payload: UpdateUserDTO
   ): Promise<User> {
-    const updatedUser = await this.usersService.updateOne(user.id, payload)
-    return classToClass(updatedUser)
+    return this.usersService.updateOne(user.id, payload)
   }
 
   @hasRoles(UserRoles.ADMIN)
@@ -91,16 +82,5 @@ export class UsersController {
   @Post('signin')
   async signIn(@Body() payload: SignInDTO): Promise<SignIn> {
     return this.usersService.signIn(payload)
-  }
-
-  @Patch('avatar')
-  @UseGuards(JwtAuthGuard, UserIsUser)
-  @UseInterceptors(FileInterceptor('file'))
-  async updateAvatar(
-    @AuthUser() user: User,
-    @UploadedFile() file: Express.Multer.File
-  ): Promise<User> {
-    const updatedUser = await this.usersService.updateAvatar(user.id, file)
-    return classToClass(updatedUser)
   }
 }

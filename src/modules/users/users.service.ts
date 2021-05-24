@@ -8,19 +8,11 @@ import {
 } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 
-import { StorageService } from '../../shared/modules/storage/storage.service'
-import { IStorageProvider } from '../../shared/modules/storage/providers/storage.provider'
 import { AuthService } from '../../shared/modules/auth/auth.service'
 
 import { UsersRepository } from './users.repository'
-import {
-  SignIn,
-  SignInDTO,
-  SignUpDTO,
-  UpdateUserDTO,
-  User,
-  UserRoles
-} from './domain'
+import { SignIn, SignInDTO, SignUpDTO, UpdateUserDTO, User } from './domain'
+import { UserRoles } from './enums/user-roles.enum'
 
 @Injectable()
 export class UsersService {
@@ -29,10 +21,7 @@ export class UsersService {
     private readonly usersRepository: UsersRepository,
 
     @Inject(forwardRef(() => AuthService))
-    private readonly authService: AuthService,
-
-    @Inject(StorageService)
-    private readonly storageProvider: IStorageProvider
+    private readonly authService: AuthService
   ) {}
 
   async findAll(user_id?: string): Promise<User[]> {
@@ -124,16 +113,6 @@ export class UsersService {
     const token = await this.authService.generateJwt(user)
 
     return { token, user_id: user.id }
-  }
-
-  async updateAvatar(id: string, filePath: any): Promise<User> {
-    const fileName = await this.storageProvider.saveFile(filePath)
-    const user = await this.findOne(id)
-
-    user.avatar = fileName
-    await this.usersRepository.save(user)
-
-    return user
   }
 
   private async findByUsernameOrEmail(

@@ -9,7 +9,7 @@ import {
   UpdateDateColumn
 } from 'typeorm'
 
-import { UserRoles } from '../../domain/enums/user-roles.enum'
+import { UserRoles } from '../../enums/user-roles.enum'
 
 @Entity('users')
 export class User extends BaseEntity {
