@@ -1,23 +1,39 @@
-import { registerAs } from '@nestjs/config'
+import { join } from 'path'
 
-export const sqlDatabase = registerAs('sqlDatabase', () => ({
-  name: process.env.SQL_NAME,
-  type: process.env.SQL_TYPE,
-  username: process.env.SQL_USERNAME,
-  password: process.env.SQL_PASSWORD,
-  host: process.env.SQL_HOST,
-  port: Number(process.env.SQL_PORT),
-  database: process.env.SQL_DATABASE,
-  synchronize: process.env.SQL_SYNCHRONIZE == 'true',
-  autoLoadEntities: process.env.SQL_AUTOLOADENTITIES == 'true'
-}))
+import { TypeOrmModuleOptions } from '@nestjs/typeorm'
+import * as dotenv from 'dotenv'
+import { MongooseModuleOptions } from '@nestjs/mongoose'
 
-export const nosqlDatabase = registerAs('nosqlDatabase', () => ({
-  name: process.env.NOSQL_NAME,
-  type: process.env.NOSQL_TYPE,
-  username: process.env.NOSQL_USERNAME,
-  password: process.env.NOSQL_PASSWORD,
-  host: process.env.NOSQL_HOST,
-  port: Number(process.env.NOSQL_PORT),
-  database: process.env.NOSQL_DATABASE
-}))
+dotenv.config()
+
+export = [
+  {
+    name: 'default',
+    type: 'postgres',
+    host: process.env.SQL_HOST,
+    username: process.env.SQL_USERNAME,
+    password: process.env.SQL_PASSWORD,
+    database: process.env.SQL_DATABASE,
+    dropSchema: false,
+    synchronize: false,
+    keepConnectionAlive: true,
+    migrationsRun: false,
+    migrations: [join(__dirname, '..', 'shared/database/migrations/*.{ts,js}')],
+    cli: {
+      migrationsDir: 'src/shared/database/migrations'
+    },
+    entities: [join(__dirname, '..', 'modules/**/models/entities/*.{ts,js}')]
+  } as TypeOrmModuleOptions,
+  {
+    name: 'other',
+    type: 'mongodb',
+    host: process.env.NOSQL_HOST,
+    username: process.env.NOSQL_USERNAME,
+    password: process.env.NOSQL_PASSWORD,
+    entities: [join(__dirname, '..', 'modules/**/models/entities/*.{ts,js}')],
+    useUnifiedTopology: true,
+    autoCreate: true,
+    autoIndex: true,
+    keepAlive: true
+  } as MongooseModuleOptions
+]

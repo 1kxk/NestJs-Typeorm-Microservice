@@ -19,10 +19,9 @@
     "test:integration": "npm test -- -c jest-integration.config.js",
     "test:staged": "npm test -- --findRelatedTests",
     "test:cov": "npm test -- --coverage --detectOpenHandles",
-    "migration:generate": "ts-node node_modules/.bin/typeorm migration:generate",
-    "migration:run": "ts-node node_modules/.bin/typeorm migration:run",
-    "migration:revert": "ts-node node_modules/.bin/typeorm migration:revert",
-    "typeorm": "ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js"
+    "typeorm": "ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js --config ./src/config/DatabaseConfig.ts",
+    "typeorm:migration:generate": "npm run typeorm -- migration:generate -n",
+    "typeorm:migration:run": "npm run typeorm -- migration:run"
   },
   "dependencies": {
     "@nestjs/common": "^7.0.0",
